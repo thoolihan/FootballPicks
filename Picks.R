@@ -1,7 +1,6 @@
 library("scales")
-setwd("C:/Workspace/FootballPicks")
 
-nfl = read.csv("C:/Workspace/FootballPicks/NFL_Picks.csv")
+nfl = read.csv("NFL_Picks.csv")
 results = nfl[complete.cases(nfl),]
 n_results = nrow(results)
 
