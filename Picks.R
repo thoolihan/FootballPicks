@@ -13,6 +13,12 @@ v_home_covers = results$Home_Score > (results$Away_Score + results$Spread)
 n_home_fav_covers = sum(v_home_covers & results$Favorite == 'H')
 n_away_fav_covers = sum(v_away_covers & results$Favorite == 'A')
 
+v_pick_fav = (results$Favorite == 'H') & (as.character(results$Pick) == as.character(results$Home_Team))
+v_pick_fav_correct = v_pick_fav & (v_home_covers | v_away_covers)
+n_pick_fav = sum(v_pick_fav)
+pick_fav_pct = percent(n_pick_fav / n_results)
+pick_fav_correct_pct = percent(sum(v_pick_fav_correct) / n_pick_fav)
+
 # how many home teams that are favored cover
 home_fav_covers = percent(n_home_fav_covers / sum(results$Favorite == 'H'))
 # how many away teams that are favored cover
