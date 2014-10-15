@@ -1,5 +1,5 @@
 # Analyze NFL Picks With R
-Update the csv with your picks and results, and run the R code to get some basic graphs and stats.
+Update the csv with your picks and spreads(if different than default csv), and run the R code to get some basic graphs and stats.
 
 ## Files
 Plot.R to see a graph of success over time
