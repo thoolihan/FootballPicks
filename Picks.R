@@ -7,17 +7,52 @@ n_results = nrow(results)
 n_correct = sum(results$Correct)
 correct_picks_pct = percent(n_correct / n_results)
 
-v_away_covers = results$Away_Score > (results$Home_Score + results$Spread)
-v_home_covers = results$Home_Score > (results$Away_Score + results$Spread)
+v_away_covers = results$Away_Score > (results$Home_Score + results$Spread) & results$Favorite == 'A'
+v_home_covers = results$Home_Score > (results$Away_Score + results$Spread) & results$Favorite == 'H'
+n_home_fav_covers = sum(v_home_covers)
+n_away_fav_covers = sum(v_away_covers)
 
-n_home_fav_covers = sum(v_home_covers & results$Favorite == 'H')
-n_away_fav_covers = sum(v_away_covers & results$Favorite == 'A')
+#your home picks
+v_pick_home = (as.character(results$Pick) == as.character(results$Home_Team))
+v_pick_home_correct = v_pick_home & v_home_covers
+n_pick_home = sum(v_pick_home)
+pick_home_pct = percent(n_pick_home / n_results)
+pick_home_correct_pct = percent(sum(v_pick_home_correct) / n_pick_home)
 
-v_pick_fav = (results$Favorite == 'H') & (as.character(results$Pick) == as.character(results$Home_Team))
+#your away picks
+v_pick_away = (as.character(results$Pick) == as.character(results$Away_Team))
+v_pick_away_correct = v_pick_away & v_away_covers
+n_pick_away = sum(v_pick_away)
+pick_away_pct = percent(n_pick_away / n_results)
+pick_away_correct_pct = percent(sum(v_pick_away_correct) / n_pick_away)
+
+#your favorite picks
+v_pick_home_fav = (results$Favorite == 'H') & v_pick_home
+v_pick_away_fav = (results$Favorite == 'A') & v_pick_away
+v_pick_fav = v_pick_home_fav | v_pick_away_fav
 v_pick_fav_correct = v_pick_fav & (v_home_covers | v_away_covers)
 n_pick_fav = sum(v_pick_fav)
 pick_fav_pct = percent(n_pick_fav / n_results)
 pick_fav_correct_pct = percent(sum(v_pick_fav_correct) / n_pick_fav)
+
+#your home favorite picks
+n_pick_home_fav = sum(v_pick_home_fav)
+pick_home_fav_pct = percent(n_pick_home_fav / n_results)
+pick_home_fav_correct_pct = percent(sum(v_pick_home_fav & v_home_covers) / n_pick_home_fav)
+
+#your away favorite picks
+n_pick_away_fav = sum(v_pick_away_fav)
+pick_away_fav_pct = percent(n_pick_away_fav / n_results)
+pick_away_fav_correct_pct = percent(sum(v_pick_away_fav & v_away_covers) / n_pick_away_fav)
+
+#your underdog picks
+v_pick_home_dog = (results$Favorite == 'A') & (as.character(results$Pick) == as.character(results$Home_Team))
+v_pick_away_dog = (results$Favorite == 'H') & (as.character(results$Pick) == as.character(results$Away_Team))
+v_pick_dog = v_pick_home_dog | v_pick_away_dog
+v_pick_dog_correct = v_pick_dog & !(v_home_covers | v_away_covers)
+n_pick_dog = sum(v_pick_dog)
+pick_dog_pct = percent(n_pick_dog / n_results)
+pick_dog_correct_pct = percent(sum(v_pick_dog_correct) / n_pick_dog)
 
 # how many home teams that are favored cover
 home_fav_covers = percent(n_home_fav_covers / sum(results$Favorite == 'H'))
@@ -25,17 +60,3 @@ home_fav_covers = percent(n_home_fav_covers / sum(results$Favorite == 'H'))
 away_fav_covers = percent(n_away_fav_covers / sum(results$Favorite == 'A'))
 #how many favored teams cover
 fav_covers = percent((n_home_fav_covers + n_away_fav_covers) / n_results)
-
-#plot results
-results_2014 = results[results$Year == 2014,]
-games_by_week = aggregate(results_2014$Pick, by=list(Week = results$Week), FUN=length)
-res_by_wk = aggregate(results_2014$Correct, by=list(Week = results$Week), FUN=sum)
-frame()
-par(new=T)
-plot(res_by_wk, axes=F, type="b", xlim=c(1,21), ylim=c(0,16),
-     main="Tim's 2014 NFL Pick results By Week", xlab="Week", ylab="Correct", col="Green")
-lines(games_by_week, col="Blue", type="b")
-axis(side=1, at=c(1:21))
-axis(side=2, at=c(0:16))
-legend(x=18, y=16, legend=c('Games', 'Correct'), fill=c('Blue', 'Green'))
-box()
