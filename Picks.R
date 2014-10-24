@@ -1,4 +1,4 @@
-nfl = read.csv("NFL_Picks.csv")
+nfl = read.csv("data/NFL_Picks.csv")
 results = nfl[complete.cases(nfl[,c("Home_Score", "Away_Score")]),]
 # make Pushed games TRUE
 results[is.na(results$Correct),]$Correct = TRUE
