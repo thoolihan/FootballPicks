@@ -2,14 +2,6 @@ source("./Picks.R")
 
 home_teams = as.character(results$Home_Team)
 away_teams = as.character(results$Away_Team)
-picks = as.character(results$Pick)
-if(length(unique(picks)) != length(unique(home_teams)) |
-     length(unique(picks)) != length(unique(away_teams))) {
-  print("Team number problem")
-  print(paste("Home Teams: ", length(unique(home_teams))))
-  print(paste("Away Teams: ", length(unique(away_teams))))
-  print(paste("Pick Teams: ", length(unique(picks))))
-}
 
 teams = unique(c(home_teams, away_teams))
 tc = length(teams)
