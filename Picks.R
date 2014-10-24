@@ -1,5 +1,3 @@
-library("scales")
-
 nfl = read.csv("NFL_Picks.csv")
 results = nfl[complete.cases(nfl),]
 

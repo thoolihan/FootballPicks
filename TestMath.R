@@ -1,3 +1,4 @@
+library("scales")
 source("./Picks.R")
 
 check_whole <- function(description1, pct1, 
