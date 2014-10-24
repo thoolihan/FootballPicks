@@ -7,7 +7,7 @@ home_fav <- function(g) { g$Favorite == 'H' }
 away_fav <- function(g) { g$Favorite == 'A' }
 home_fav_covers <- function(g) { g$Home_Score > (g$Away_Score + g$Spread) & home_fav(g) }
 away_fav_covers <- function(g) { g$Away_Score > (g$Home_Score + g$Spread) & away_fav(g) }
-fav_covers <- function(g) { home_covers(g) | away_covers(g) }
+fav_covers <- function(g) { home_fav_covers(g) | away_fav_covers(g) }
 pick_home <- function(g) { as.character(g$Pick) == as.character(g$Home_Team) }
 pick_away <- function(g) { as.character(g$Pick) == as.character(g$Away_Team) }
 pick_favorite <- function (g) { (home_fav(g) & pick_home(g)) | (away_fav(g) & pick_away(g)) }
@@ -33,10 +33,10 @@ games <- condition_frequency(results)
 weeks <- length(unique(results$Week))
 
 home_fav_pct <- condition_percentage(results, subset_condition = home_fav)
-home_fav_covers_pct <- condition_percentage(results, set_condition = home_fav, subset_condition = home_covers)
+home_fav_covers_pct <- condition_percentage(results, set_condition = home_fav, subset_condition = home_fav_covers)
 
 away_fav_pct <- condition_percentage(results, subset_condition = away_fav)
-away_fav_covers_pct <- condition_percentage(results, set_condition = away_fav, subset_condition = away_covers)
+away_fav_covers_pct <- condition_percentage(results, set_condition = away_fav, subset_condition = away_fav_covers)
 
 fav_covers_pct <- condition_percentage(results, subset_condition = fav_covers)
 
