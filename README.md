@@ -8,7 +8,7 @@ Describe.R to get a detailed breakdown of frequency and success by pick type
 
 TestMath.R to verify your records make sense and formulas are correct
 
-Teams.R to load up a frame of some team specific stats. With that file sourced, you can use examine_game to look at two teams that are about to play
+Teams.R to load up a frame of some team specific stats. With that file sourced, you can use examine_teams to compare teams
 
 ## Coming soon
 - Success by spread size clusters

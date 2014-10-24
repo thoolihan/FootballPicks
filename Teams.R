@@ -57,8 +57,8 @@ for(i in 1:length(teams)) {
   team_data$AwayUpset[i] <- sum(away_dog & away_wins) / sum(away_dog)  
 }
 
-examine_game <- function(team1, team2) {
-  td <- team_data[team_data$Team %in% c(team1,team2),]
+examine_teams <- function(...) {
+  td <- team_data[team_data$Team %in% list(...),]
   
   print(cbind(team = td$Team, pick_right = percent(td$PicksPct), 
         cover = percent(td$FavCoverPct), 
