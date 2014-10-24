@@ -1,5 +1,7 @@
 nfl = read.csv("NFL_Picks.csv")
-results = nfl[complete.cases(nfl),]
+results = nfl[complete.cases(nfl[,c("Home_Score", "Away_Score")]),]
+# make Pushed games TRUE
+results[is.na(results$Correct),]$Correct = TRUE
 
 any_pick <- function(g) { g$Year == g$Year }
 correct_pick <- function(g) { g$Correct }
