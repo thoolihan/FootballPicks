@@ -6,8 +6,9 @@ Plot.R to see a graph of success over time
 
 Describe.R to get a detailed breakdown of frequency and success by pick type
 
+TestMath.R to verify your records make sense and formulas are correct
+
 ## Coming soon
-- Math fixes, some results currently not adding up
 - Success by spread size clusters
 - More visualization of results via plots and reports
 - Possible Shiny web app
