@@ -39,3 +39,14 @@ check_whole("Favorite Pick", pick_fav_pct,
 check_whole("Favorite Picks Correct", pick_fav_pct * pick_fav_correct_pct,
             "Underdog Picks Correct", pick_dog_pct * pick_dog_correct_pct,
             "Picks Correct", correct_picks_pct)
+
+home_teams = as.character(results$Home_Team)
+away_teams = as.character(results$Away_Team)
+picks = as.character(results$Pick)
+if(length(unique(picks)) != length(unique(home_teams)) |
+     length(unique(picks)) != length(unique(away_teams))) {
+  print("Team number problem")
+  print(paste("Home Teams: ", length(unique(home_teams))))
+  print(paste("Away Teams: ", length(unique(away_teams))))
+  print(paste("Pick Teams: ", length(unique(picks))))
+}
