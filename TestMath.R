@@ -4,7 +4,7 @@ source("./Picks.R")
 check_whole <- function(description1, pct1, 
                         description2, pct2, 
                         description_expected = "all", pct_expected = 1) {
-  print(cat(description1, 
+  writeLines(paste(description1, 
           " (", 
           percent(pct1),
           ") + ",
@@ -17,7 +17,7 @@ check_whole <- function(description1, pct1,
           percent(pct_expected),
           " (",
           description_expected,
-          ")"))
+          ")")[1])
 }
 
 bad_rows = results[!(pick_home(results) | pick_away(results)),]
