@@ -23,8 +23,8 @@ describe <- function(category, frq, acc, file = fout) {
   w <- function(s) { write(s, file, append=TRUE) }
   w("<tr>")
   w(paste("<td>", category, "</td>", sep=""))
-  w(paste("<td style='padding: 0.2em'>", percent(frq), "</td>", sep=""))
-  w(paste("<td style='padding: 0.2em'>", percent(acc), "</td>", sep=""))
+  w(paste("<td style='padding: 0 2em'>", percent(frq), "</td>", sep=""))
+  w(paste("<td>", percent(acc), "</td>", sep=""))
   w("</tr>")
 }
 
