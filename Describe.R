@@ -40,4 +40,4 @@ describe("Away Underdogs", pick_away_dog_pct, pick_away_dog_correct_pct)
 
 write("</tbody></table>", fout, append=TRUE)
 
-rmarkdown::render("Results.Rmd")
+rmarkdown::render("output/Results.Rmd")
