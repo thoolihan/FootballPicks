@@ -7,5 +7,5 @@ res_by_week = aggregate(results_2014$Correct, by=list(Week = results$Week), FUN=
 
 print(ggplot(res_by_week, aes(Week)) +
         geom_line(aes(y = games_by_week$x, color="Total")) +
-        geom_point(aes(y = res_by_week$x, color="Correct")) +
+        geom_point(aes(y = res_by_week$x, color="Correct", size=10)) +
         geom_line(aes(y = games_by_week$x * 0.5, color="50%")))
