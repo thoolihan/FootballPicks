@@ -41,3 +41,9 @@ describe("Away Underdogs", pick_away_dog_pct, pick_away_dog_correct_pct)
 write("</tbody></table>", fout, append=TRUE)
 
 rmarkdown::render("output/Results.Rmd")
+viewer <- getOption("viewer")
+if (!is.null(viewer)) {
+  viewer("output/Results.html")
+} else {
+  utils::browseURL("output/Results.html")
+}
