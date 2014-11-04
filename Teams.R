@@ -13,6 +13,8 @@ team_data <- data.frame("Team" = character(tc),
                         "Picks" = numeric(tc),
                         "PicksCorrect" = numeric(tc),
                         "PicksPct" = numeric(tc),
+                        "Favorited" = numeric(tc),
+                        "Underdog" = numeric(tc),
                         "FavCoverPct" = numeric(tc),
                         "HomeFavCover" = numeric(tc),
                         "AwayFavCover" = numeric(tc),
@@ -22,21 +24,21 @@ team_data <- data.frame("Team" = character(tc),
                         stringsAsFactors = FALSE)
 for(i in 1:length(teams)) {
   team = teams[i]
- 
+
   home_games <- home_teams == team
   home_fav <- home_games & results$Favorite == "H"
   home_dog <- home_games & results$Favorite == "A"
   home_wins <- home_games & results$Home_Score > results$Away_Score
   home_losses <- home_games & results$Home_Score < results$Away_Score
   home_ties <- home_games & results$Home_Score == results$Away_Score
-  
+
   away_games <- away_teams == team
   away_fav <- away_games & results$Favorite == "A"
   away_dog <- away_games & results$Favorite == "H"
   away_wins <- away_games & results$Away_Score > results$Home_Score
   away_losses <- away_games & results$Away_Score < results$Home_Score
   away_ties <- away_games & results$Home_Score == results$Away_Score
-  
+
   team_data$Team[i] <- team
   team_data$Games[i] <- sum(c(home_games, away_games))
   team_data$Wins[i] <- sum(c(home_wins, away_wins))
@@ -45,23 +47,26 @@ for(i in 1:length(teams)) {
   team_data$Picks[i] <- sum(results$Pick == team)
   team_data$PicksCorrect[i] <- sum(results$Pick == team & results$Correct)
   team_data$PicksPct[i] <- team_data$PicksCorrect[i] / team_data$Picks[i]
-  
-  team_data$FavCoverPct[i] <- sum(c(home_fav & home_wins, away_fav & away_wins)) / 
+
+  team_data$Favorited[i] <- sum(c(home_fav, away_fav))
+  team_data$Underdog[i] <- sum(c(home_dog, away_dog))
+
+  team_data$FavCoverPct[i] <- sum(c(home_fav & home_wins, away_fav & away_wins)) /
                               sum(c(home_fav, away_fav))
   team_data$HomeFavCover[i] <- sum(home_fav & home_wins) / sum(home_fav)
   team_data$AwayFavCover[i] <- sum(away_fav & away_wins) / sum(away_fav)
-  
-  team_data$UpsetPct[i] <- sum(c(home_dog & home_wins, away_dog & away_wins)) / 
+
+  team_data$UpsetPct[i] <- sum(c(home_dog & home_wins, away_dog & away_wins)) /
     sum(c(home_dog, away_dog))
   team_data$HomeUpset[i] <- sum(home_dog & home_wins) / sum(home_dog)
-  team_data$AwayUpset[i] <- sum(away_dog & away_wins) / sum(away_dog)  
+  team_data$AwayUpset[i] <- sum(away_dog & away_wins) / sum(away_dog)
 }
 
 examine_teams <- function(...) {
   td <- team_data[team_data$Team %in% list(...),]
-  
-  print(cbind(team = td$Team, pick_right = percent(td$PicksPct), 
-        cover = percent(td$FavCoverPct), 
+
+  print(cbind(team = td$Team, pick_right = percent(td$PicksPct),
+        cover = percent(td$FavCoverPct),
         home_cover = percent(td$HomeFavCover), away_cover = percent(td$AwayFavCover),
         upset = percent(td$UpsetPct),
         home_upset = percent(td$HomeUpset), away_upset = percent(td$AwayUpset),
