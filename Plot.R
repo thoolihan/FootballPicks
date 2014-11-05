@@ -1,19 +1,23 @@
 source("./Picks.R")
 library("ggplot2")
+library("dplyr")
 
-results_2014 = results[results$Year == 2014,]
-games_by_week = aggregate(results_2014$Pick, by=list(Week = results$Week), FUN=length)
-res_by_week = aggregate(results_2014$Correct, by=list(Week = results$Week), FUN=sum)
+res <- filter(results, Year == 2014)
+weeks <- group_by(res, Week)
+my_results <- summarize(weeks, Total = length(Week), Correct = sum(Correct))
 
-projected = coef(lm(res_by_week$x ~ res_by_week$Week))
-
-print(ggplot(res_by_week, aes(Week, x)) +
-        stat_smooth(aes(color = "Projected"), method="lm", color="purple", linetype="dotted") +
-        geom_line(aes(y = games_by_week$x, color="Total"), color = "black", linetype = "dashed") +
-        geom_point(aes(y = res_by_week$x, color="Correct", size = 10), color = "dark green") +
-        geom_line(aes(y = games_by_week$x * 0.5, color="50%"),
-                  linetype = 'dashed', color = "blue") +
-        xlim(1, 17) +
-        ylim(0, 16) +
-        ylab('Picks'))
-
+p <- qplot(data = my_results,
+           x = Week,
+           y = Correct,
+           geom = c("point", "line"),
+           color = "Correct",
+           main = "Tim's 2014 Spread Pick Results") +
+  stat_smooth(aes(y = Correct, color = "Linear Projection"),
+                method = "lm") +
+  geom_line(aes(y = Total, color = "Total"),
+            linetype = "dashed") +
+  geom_line(aes(y = Total * 0.5, color="50%"),
+            linetype = 'dashed') +
+  scale_x_continuous(breaks = 1:17, limits = c(1,17)) +
+  scale_y_continuous(breaks = seq(0, 16, 2), limits = c(0,16))
+print(p)
