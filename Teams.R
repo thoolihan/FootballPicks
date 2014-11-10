@@ -1,5 +1,6 @@
 source("./Picks.R")
-library("scales")
+library(scales)
+library(plyr)
 
 home_teams = as.character(results$Home_Team)
 away_teams = as.character(results$Away_Team)
