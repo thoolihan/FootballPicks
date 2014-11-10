@@ -63,6 +63,10 @@ for(i in 1:length(teams)) {
   team_data$AwayUpset[i] <- sum(away_dog & away_wins) / sum(away_dog)
 }
 
+# Needs improving, it's an attempt at a weighted performance score against the spread
+teams <- mutate(team_data, combined = FavCoverPct * Favorited +
+                     + UpsetPct * Underdog)
+
 examine_teams <- function(...) {
   td <- team_data[team_data$Team %in% list(...),]
 
