@@ -79,4 +79,19 @@ examine_teams <- function(...) {
         record = paste(td$Wins, "-", td$Losses, "-", td$Ties, sep="")))
 }
 
+unplayed_games <- function() {
+  tbd <- nfl[!complete.cases(nfl[,c("Home_Score", "Away_Score")]),]
+  for(i in 1:nrow(tbd)) {
+    game <- tbd[i,]
+    ht <- as.character(game$Home_Team)
+    at <- as.character(game$Away_Team)
+    print(sprintf("%s @ %s \t %s by %0.2f",
+                  at,
+                  ht,
+                  ifelse(game$Favorite == 'H', ht, at),
+                  game$Spread))
+    examine_teams(at, ht)
+    print("\n")
+  }
+}
 
