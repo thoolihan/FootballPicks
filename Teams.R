@@ -1,4 +1,6 @@
 source("./Picks.R")
+library(scales)
+library(dplyr)
 
 home_teams = as.character(results$Home_Team)
 away_teams = as.character(results$Away_Team)
@@ -61,6 +63,10 @@ for(i in 1:length(teams)) {
   team_data$HomeUpset[i] <- sum(home_dog & home_wins) / sum(home_dog)
   team_data$AwayUpset[i] <- sum(away_dog & away_wins) / sum(away_dog)
 }
+
+# Needs improving, it's an attempt at a weighted performance score against the spread
+teams <- mutate(team_data, combined = FavCoverPct * Favorited +
+                     + UpsetPct * Underdog)
 
 examine_teams <- function(...) {
   td <- team_data[team_data$Team %in% list(...),]

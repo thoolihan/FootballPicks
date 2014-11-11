@@ -1,17 +1,37 @@
 source("./Picks.R")
+library(ggplot2)
+library(dplyr)
+library(gridExtra)
 
-results_2014 = results[results$Year == 2014,]
-games_by_week = aggregate(results_2014$Pick, by=list(Week = results$Week), FUN=length)
-half <- games_by_week
-half$x <- half$x * 0.5
-res_by_wk = aggregate(results_2014$Correct, by=list(Week = results$Week), FUN=sum)
-frame()
-par(new=T, mfrow=c(1,1))
-plot(res_by_wk, axes=F, type="b", xlim=c(1,21), ylim=c(0,16),
-     main="Tim's 2014 NFL Pick Spread Results By Week", xlab="Week", ylab="Correct", col="Green")
-lines(games_by_week, col="Blue", type="b")
-lines(half, col="Gray", type="l")
-axis(side=1, at=c(1:21))
-axis(side=2, at=c(0:16))
-legend(x=18, y=16, legend=c('Games', 'Correct', '50%'), fill=c('Blue', 'Green', 'Gray'))
-box()
+my_results <- filter(results, Year == 2014) %>%
+  group_by(Week) %>%
+  summarize(Total = length(Week), Correct = sum(Correct))
+
+p1 <- qplot(data = my_results,
+           x = Week,
+           y = Correct,
+           geom = c("point", "line"),
+           color = "Correct",
+           main = "Tim's 2014 Spread Pick Results") +
+  geom_line(aes(y = Total, color = "Total"),
+            linetype = "dashed") +
+  stat_smooth(aes(y = Correct, color = "Projected"), method = "lm") +
+  scale_x_continuous(breaks = 1:17, limits = c(1,17)) +
+  scale_y_continuous(breaks = seq(0, 16, 2), limits = c(0,16)) +
+  theme_bw()
+
+p2 <- qplot(data = my_results,
+           x = Week,
+           y = Correct,
+           geom = c("point", "line"),
+           color = "Correct",
+           main = "Tim's 2014 Spread Pick Results") +
+  geom_line(aes(y = Total, color = "Total"),
+            linetype = "dashed") +
+  geom_line(aes(y = Total * 0.5, color="50%"),
+            linetype = 'dashed') +
+  scale_x_continuous(breaks = 1:17, limits = c(1,17)) +
+  scale_y_continuous(breaks = seq(0, 16, 2), limits = c(0,16)) +
+  theme_bw()
+
+grid.arrange(p1, p2, nrow = 2)
