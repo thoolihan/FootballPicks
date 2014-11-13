@@ -85,7 +85,7 @@ unplayed_games <- function() {
     game <- tbd[i,]
     ht <- as.character(game$Home_Team)
     at <- as.character(game$Away_Team)
-    print(sprintf("%s @ %s \t %s by %0.2f",
+    print(sprintf("%s @ %s    %s by %0.2f",
                   at,
                   ht,
                   ifelse(game$Favorite == 'H', ht, at),
