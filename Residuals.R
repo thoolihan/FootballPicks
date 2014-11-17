@@ -23,7 +23,7 @@ p1 <- qplot(data = res_waf,
             x = Week,
             y = bt_resid,
             geom = "point") +
-  geom_line(aes(y = 0, x = 0:17)) +
+  geom_line(aes(y = 0)) +
   theme_bw() +
   xlab("By Total Number of Games")
 
@@ -31,7 +31,7 @@ p2 <- qplot(data = res,
             x = Week,
             y = bw_resid,
             geom = "point") +
-  geom_line(aes(y = 0, x = 0:17)) +
+  geom_line(aes(y = 0)) +
   theme_bw() +
   xlab("By Week")
 
@@ -39,7 +39,7 @@ p3 <- qplot(data = res,
             x = Week,
             y = btw_resid,
             geom = "point") +
-  geom_line(aes(y = 0, x = 0:17)) +
+  geom_line(aes(y = 0)) +
   theme_bw() +
   xlab("By Week & Total Games")
 

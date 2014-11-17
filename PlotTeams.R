@@ -8,11 +8,11 @@ team_data <- mutate(team_data,
                  UpsetPct = ifelse(is.na(UpsetPct), 0.0, UpsetPct)
 )
 
-covers <- arrange(team_data, FavCoverPct, Favorited)
-covers <- mutate(covers, Team = factor(Team, levels = Team, ordered = TRUE))
+covers <- arrange(team_data, FavCoverPct, Favorited) %>%
+           mutate(Team = factor(Team, levels = Team, ordered = TRUE))
 
-upsets <- arrange(team_data, UpsetPct, Underdog)
-upsets <- mutate(upsets, Team = factor(Team, levels = Team, ordered = TRUE))
+upsets <- arrange(team_data, UpsetPct, Underdog) %>%
+          mutate(Team = factor(Team, levels = Team, ordered = TRUE))
 
 g1 <- ggplot(data = covers) +
   geom_point(aes(y = Team,

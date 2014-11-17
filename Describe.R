@@ -1,5 +1,5 @@
-library("rmarkdown")
-library("scales")
+library(rmarkdown)
+library(scales)
 source("./Picks.R")
 
 fout <- "output/Results.Rmd"

@@ -1,11 +1,11 @@
-library("scales")
+library(scales)
 source("./Picks.R")
 
-check_whole <- function(description1, pct1, 
-                        description2, pct2, 
+check_whole <- function(description1, pct1,
+                        description2, pct2,
                         description_expected = "all", pct_expected = 1) {
-  writeLines(paste(description1, 
-          " (", 
+  writeLines(paste(description1,
+          " (",
           percent(pct1),
           ") + ",
           description2,
@@ -29,8 +29,8 @@ if(nrow(bad_rows) > 0) {
 
 #weighted
 check_whole("Home Favorites", home_fav_pct, "Away Favorites", away_fav_pct)
-check_whole("Home Favorites Cover", home_fav_pct * home_fav_covers_pct, 
-            "Away Favorites Cover", away_fav_pct * away_fav_covers_pct, 
+check_whole("Home Favorites Cover", home_fav_pct * home_fav_covers_pct,
+            "Away Favorites Cover", away_fav_pct * away_fav_covers_pct,
             "Favorites Cover", fav_covers_pct)
 check_whole("Home Pick", pick_home_pct,
             "Away Pick", pick_away_pct)
