@@ -43,7 +43,9 @@ write("</tbody></table>", fout, append=TRUE)
 rmarkdown::render("output/Results.Rmd")
 viewer <- getOption("viewer")
 if (!is.null(viewer)) {
+  print("using options viewer")
   viewer("output/Results.html")
 } else {
+  print("calling browse url")
   utils::browseURL("output/Results.html")
 }

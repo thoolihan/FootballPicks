@@ -2,16 +2,12 @@ library(ggplot2)
 library(dplyr)
 library(gridExtra)
 
-res_waf <- filter(results, Year == 2014) %>%
-            mutate(Week = factor(Week, levels = 1:17)) %>%
-            group_by(Week) %>%
-            summarize(Total = length(Week), Correct = sum(Correct))
-bt_model <- lm(Correct ~ Total, data = res_waf)
-bt_resid <- resid(bt_model)
-
 res <- filter(results, Year == 2014) %>%
   group_by(Week) %>%
   summarize(Total = length(Week), Correct = sum(Correct))
+
+bt_model <- lm(Correct ~ Total, data = res_waf)
+bt_resid <- resid(bt_model)
 
 bw_model <- lm(Correct ~ Week, data = res)
 bw_resid <- resid(bw_model)
@@ -19,11 +15,11 @@ bw_resid <- resid(bw_model)
 btw_model <- lm(Correct ~ I(Total - 13) + Week, data = res)
 btw_resid <- resid(btw_model)
 
-p1 <- qplot(data = res_waf,
+p1 <- qplot(data = res,
             x = Week,
             y = bt_resid,
             geom = "point") +
-  geom_line(aes(y = 0)) +
+  geom_line(aes(y = 0), color = "black") +
   theme_bw() +
   xlab("By Total Number of Games")
 

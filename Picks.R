@@ -23,8 +23,8 @@ condition_frequency <- function(data, subset_condition = any_pick) {
   sum(subset_condition(data))
 }
 
-condition_percentage <- function(data, 
-                                 set_condition = any_pick, 
+condition_percentage <- function(data,
+                                 set_condition = any_pick,
                                  subset_condition = correct_pick) {
   subset_filter <- function(g) { set_condition(g) & subset_condition(g) }
   condition_frequency(data, subset_filter) / condition_frequency(data, set_condition)
@@ -35,7 +35,8 @@ games <- condition_frequency(results)
 weeks <- length(unique(results$Week))
 
 home_fav_pct <- condition_percentage(results, subset_condition = home_fav)
-home_fav_covers_pct <- condition_percentage(results, set_condition = home_fav, subset_condition = home_fav_covers)
+home_fav_covers_pct <- condition_percentage(results, set_condition = home_fav,
+                                            subset_condition = home_fav_covers)
 
 away_fav_pct <- condition_percentage(results, subset_condition = away_fav)
 away_fav_covers_pct <- condition_percentage(results, set_condition = away_fav, subset_condition = away_fav_covers)
