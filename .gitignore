@@ -7,3 +7,5 @@ Results.Rmd
 Results.html
 .Rapp.history
 *.gsheet
+data/Brad.csv
+output/

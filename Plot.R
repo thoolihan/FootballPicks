@@ -12,7 +12,7 @@ p1 <- qplot(data = my_results,
            y = Correct,
            geom = c("point", "line"),
            color = "Correct",
-           main = "Tim's 2014 Spread Pick Results Trending") +
+           main = "Your 2014 Spread Pick Results Trending") +
   geom_line(aes(y = Total, color = "Total"),
             linetype = "dashed") +
   stat_smooth(aes(y = Correct, color = "Projected"), method = "lm") +
@@ -25,7 +25,7 @@ p2 <- qplot(data = my_results,
            y = Correct,
            geom = c("point", "line"),
            color = "Correct",
-           main = "Tim's 2014 Spread Pick Results Against 50%") +
+           main = "Your 2014 Spread Pick Results Against 50%") +
   geom_line(aes(y = Total, color = "Total"),
             linetype = "dashed") +
   geom_line(aes(y = Total * 0.5, color="50%"),
