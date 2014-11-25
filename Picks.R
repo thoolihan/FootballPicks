@@ -1,7 +1,39 @@
-nfl = read.csv("data/NFL_Picks.csv")
-results = nfl[complete.cases(nfl[,c("Home_Score", "Away_Score")]),]
-# make Pushed games TRUE
-results[is.na(results$Correct),]$Correct = TRUE
+library(dplyr)
+
+nfl <- read.csv("data/Brad.csv")
+results <- nfl[complete.cases(nfl[,c("Home_Score", "Away_Score")]),]
+
+# add virtual columns
+results$Home_Score_Adj <- numeric(nrow(results))
+results$Away_Score_Adj <- numeric(nrow(results))
+results$Winner <- character(nrow(results))
+results$SpreadWinner <- character(nrow(results))
+
+# create spread adjusted scores
+hf <- results$Favorite == 'H'
+af <- results$Favorite == 'A'
+
+results[hf,]$Home_Score_Adj <- results[hf,]$Home_Score - results[hf,]$Spread
+results[hf,]$Away_Score_Adj <- results[hf,]$Away_Score
+
+results[af,]$Away_Score_Adj <- results[af,]$Away_Score - results[af,]$Spread
+results[af,]$Home_Score_Adj <- results[af,]$Home_Score
+
+# calculate winners
+select_winner <- function(home_score, away_score, home_team, away_team) {
+  if(home_score > away_score) return(as.character(home_team))
+  if(away_score > home_score) return(as.character(away_team))
+  return('TIE')
+}
+
+results$Winner <- mapply(select_winner, results$Home_Score, results$Away_Score, results$Home_Team, results$Away_Team)
+results$SpreadWinner <- mapply(select_winner, results$Home_Score_Adj, results$Away_Score_Adj, results$Home_Team, results$Away_Team)
+
+# calculate correct column
+results$Correct <- mapply(function(winner, pick) {
+                            as.character(winner) %in% c(as.character(pick), 'TIE')
+                            }, results$SpreadWinner, results$Pick)
+
 
 any_pick <- function(g) { g$Year == g$Year }
 correct_pick <- function(g) { g$Correct }
