@@ -1,3 +1,10 @@
+---
+title: "Analyze NFL Picks With R"
+output: 
+  html_document:
+    toc: true
+    theme: spacelab
+---
 # Analyze NFL Picks With R
 Update the csv with your picks and spreads(if different than default csv), and run the R code to get some basic graphs and stats.
 
