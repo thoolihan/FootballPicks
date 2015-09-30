@@ -3,7 +3,8 @@ library(ggplot2)
 library(dplyr)
 library(gridExtra)
 
-my_results <- filter(results, Year == 2014) %>%
+this_season <- as.numeric(format(Sys.Date(), "%Y"))
+my_results <- filter(results, Year == this_season) %>%
   group_by(Week) %>%
   summarize(Total = length(Week), Correct = sum(Correct))
 
